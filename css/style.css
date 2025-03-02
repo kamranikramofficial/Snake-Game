@@ -1,0 +1,305 @@
+@import url('https://fonts.googleapis.com/css2?family=New+Tegomin&family=Poppins:wght@400;600;700&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #6200ea;
+  --primary-light: #9d46ff;
+  --secondary: #f50057;
+  --secondary-light: #ff5983;
+  --accent: #00c853;
+  --light: #ffffff;
+  --dark: #121212;
+  --board-bg: rgba(255, 255, 255, 0.9);
+}
+
+body {
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+.body {
+  background: url("../img/bg.jpg");
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+
+.body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
+  z-index: 0;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  padding: 10px;
+  z-index: 1;
+  position: relative;
+}
+
+.game-title {
+  font-family: 'New Tegomin', serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--light);
+  text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary-light);
+  margin-bottom: 10px;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.score-container {
+  display: flex;
+  justify-content: space-between;
+  width: min(90vmin, 600px);
+  margin-bottom: 10px;
+  gap: 15px;
+}
+
+#scoreBox, #hiscoreBox {
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
+  font-weight: bold;
+  font-family: 'New Tegomin', serif;
+  color: var(--light);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 8px 15px;
+  border-radius: 50px;
+  box-shadow: 0 0 15px rgba(98, 0, 234, 0.5);
+  border: 1px solid var(--primary-light);
+  transition: all 0.3s ease;
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+}
+
+#scoreBox {
+  background: linear-gradient(45deg, rgba(98, 0, 234, 0.7), rgba(157, 70, 255, 0.7));
+}
+
+#hiscoreBox {
+  background: linear-gradient(45deg, rgba(245, 0, 87, 0.7), rgba(255, 89, 131, 0.7));
+}
+
+#board {
+  background: linear-gradient(135deg, var(--board-bg), rgba(236, 236, 167, 0.8));
+  width: min(80vmin, 550px);
+  height: min(80vmin, 550px);
+  border: 3px solid var(--light);
+  border-radius: 10px;
+  display: grid;
+  grid-template-rows: repeat(18, 1fr);
+  grid-template-columns: repeat(18, 1fr);
+  box-shadow: 0 0 30px rgba(98, 0, 234, 0.3);
+  overflow: hidden;
+  position: relative;
+}
+
+#board::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    transparent,
+    transparent 5.5%,
+    rgba(0, 0, 0, 0.05) 5.5%,
+    rgba(0, 0, 0, 0.05) 5.6%
+  ),
+  repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 5.5%,
+    rgba(0, 0, 0, 0.05) 5.5%,
+    rgba(0, 0, 0, 0.05) 5.6%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+.head {
+  background: linear-gradient(45deg, var(--secondary), var(--secondary-light));
+  border: 2px solid var(--light);
+  transform: scale(1.05);
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  z-index: 10;
+  position: relative;
+}
+
+.head::before {
+  content: '';
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  background: white;
+  border-radius: 50%;
+  top: 20%;
+  left: 20%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.snake {
+  background: linear-gradient(45deg, var(--primary), var(--primary-light));
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  margin: 1px;
+  transition: all 0.1s ease;
+  position: relative;
+  z-index: 5;
+}
+
+.food {
+  background: radial-gradient(circle, var(--accent), #00a040);
+  border: 2px solid var(--light);
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(0, 200, 83, 0.8);
+  transform: scale(0.85);
+  animation: pulse 1s infinite alternate;
+  z-index: 5;
+  position: relative;
+}
+
+.controls {
+  margin-top: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 8px 15px;
+  border-radius: 50px;
+  color: var(--light);
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  font-size: clamp(0.7rem, 2vw, 0.9rem);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--primary-light);
+  box-shadow: 0 0 15px rgba(98, 0, 234, 0.5);
+}
+
+.controls span {
+  display: inline-block;
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  margin: 0 3px;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.8);
+    box-shadow: 0 0 10px rgba(0, 200, 83, 0.5);
+  }
+  to {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(0, 200, 83, 0.8);
+  }
+}
+
+/* Game over overlay */
+.game-over {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.game-over.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.game-over-content {
+  text-align: center;
+  color: var(--light);
+  padding: 20px;
+  border-radius: 10px;
+  background: rgba(98, 0, 234, 0.3);
+  border: 2px solid var(--primary);
+  box-shadow: 0 0 30px var(--primary-light);
+}
+
+.game-over h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  font-family: 'New Tegomin', serif;
+}
+
+.game-over p {
+  margin-bottom: 20px;
+}
+
+.restart-btn {
+  background: var(--secondary);
+  color: var(--light);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.restart-btn:hover {
+  background: var(--secondary-light);
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-height: 600px) {
+  .game-title {
+    margin-bottom: 5px;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+  
+  .score-container {
+    margin-bottom: 5px;
+  }
+  
+  #scoreBox, #hiscoreBox {
+    padding: 5px 10px;
+  }
+  
+  .controls {
+    margin-top: 5px;
+    padding: 5px 10px;
+  }
+  
+  #board {
+    width: min(70vmin, 450px);
+    height: min(70vmin, 450px);
+  }
+}
